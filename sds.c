@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<assert.h>
 #include<string.h>
-//第一版
+//第一版 字符串拼接
 //if (psds->free <= size)
 //{
 //	size_t newsize = (psds->len + size) * 2 - 1;
@@ -16,7 +16,7 @@
 //	free(psds->buf);
 //	psds->free = psds->len = (newsize - 1) / 2;
 //}
-//第二版
+//第二版 字符串拼接
 //if (psds->free <= size)
 //{
 //	size_t newsize = (psds->len + size) * 2 - 1;
@@ -34,13 +34,42 @@
 //	psds->free = psds->len = (newsize - 1) / 2;
 //}
 
-//第一版
+//第一版 字符串拼接
 //else
 //{
 //	char *endstrp = psds->buf + psds->len;
 //	while (*endstrp++ == *str++);//又是这里
 //	psds->free -= size - 1;
 //	psds->len += size - 1;
+//}
+
+//第一版 接受一个 SDS 和一个 C 字符串作为参数，清除在C字符串中出现过的sds字符
+//外循环采用c字符串，改进后用sds
+//void sds_trim(sds * sdsp, const char * str)
+//{
+//	int freecount = 0;
+//	while (*str)
+//	{
+//		int i = 0;
+//		for (i = 0; i < sdsp->len; i++)
+//		{
+//			char *target = sdsp->buf + i;
+//			if (*target == *str)
+//			{
+//				*target = '\0';
+//				sdsp->free++;
+//				freecount++;
+//			}
+//			else
+//			{
+//
+//			}
+//		
+//			
+//		}
+//		str++;
+//	}
+//	sdsp->len -= freecount;
 //}
 void sds_clear(sds * const sdsp)
 {
@@ -79,11 +108,49 @@ void sds_cpy(const char * str, sds * psds)
 {
 	
 }
+void sds_growzero(sds * sdsp)
+{
+
+}
+//void sds_trim(sds * sdsp, const char * str)
+//{
+//	int freecount = 0;
+//	char *sdsstr = sdsp->buf;
+//	int in = sdsp->len;
+//	int saveindex[in] = 0;
+//	while (*sdsstr)
+//	{
+//		int i = 0;
+//		for (i = 0; i < strlen(str); i++)
+//		{
+//
+//		}
+//		/*int i = 0;
+//		for (i = 0; i < sdsp->len; i++)
+//		{
+//			char *target = sdsp->buf + i;
+//			if (*target == *str)
+//			{
+//				*target = '\0';
+//				sdsp->free++;
+//				freecount++;
+//			}
+//			else
+//			{
+//
+//			}
+//		
+//			
+//		}
+//		str++;*/
+//	}
+//	sdsp->len -= freecount;
+//}
 sds* sds_dup(const sds* const source)
 {	
 	sds* sdsp = sds_empty();
 
-	sdsp->buf = (char*)malloc(strlen(source->buf) + 1);//注意分配内存！
+	sdsp->buf = (char*)malloc(source->free+source->len+1);//注意分配内存！
 
 	sdsp->free = source->free;
 
@@ -92,6 +159,8 @@ sds* sds_dup(const sds* const source)
 	char *sp = source->buf;
 
 	char *dp = sdsp->buf;
+
+	*dp = '\0';
 
 	while (*dp++ = *sp++);
 

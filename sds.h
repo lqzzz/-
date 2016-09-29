@@ -19,3 +19,5 @@ sds* sds_dup(const sds* const source);
 void sds_clear(sds * const sdsp);
 void sds_cat(sds * psds, const char* str);
 void sds_cpy(const char* str, sds* psds);
+void sds_growzero(sds *sdsp);
+void sds_trim(sds* sdsp, const char* str);

@@ -21,9 +21,18 @@
     <ClCompile Include="sds.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="list.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sds.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dict.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="list.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
