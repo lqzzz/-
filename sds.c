@@ -172,6 +172,18 @@ int sds_avail(const sds *const sdsp)
 	return sdsp->free;
 }
 
+unsigned int sdshashcode(const sds *target)
+{
+	unsigned int num = 0;
+	char *str = target->buf;
+	while (*str++)
+	{
+		int inte = *str;
+		num = (num * 10) + inte;
+	}
+	return num;
+}
+
 int sds_len(const sds*const sdsp)
 {
 	return sdsp->len;

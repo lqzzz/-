@@ -30,12 +30,9 @@ typedef struct list{
 	Matchfun match;
 
 }list;
-
 list* list_creat();
 void list_set_dup(list* target,void* (*setmethod)(void *ptr));
-Dupfun list_get_dup(list* target);
 void list_set_free(list* target, void (*getmethod)(void *ptr));
-Freefun list_get_free(list* target);
 void list_add_head(list* target,void* value);
 listnode* list_get_head(list* target);
 

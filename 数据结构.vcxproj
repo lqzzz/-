@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dict.cpp" />
     <ClCompile Include="list.c" />
     <ClCompile Include="sds.c" />
     <ClCompile Include="源.c" />
