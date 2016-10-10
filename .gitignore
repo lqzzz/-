@@ -240,3 +240,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Dict整理.cpp
+/OOP.cpp
+/dystring.h

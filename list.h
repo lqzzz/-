@@ -1,35 +1,26 @@
 #pragma once
-typedef struct listnode{
-
- 	struct listnode *prev;
-
-	struct listnode *next;
-
-	void* value;
-
-}listnode;
-
-listnode* node_creat();
 
 typedef void*(*Dupfun)(void*);
 typedef void(*Freefun)(void*);
 typedef int(*Matchfun)(void*, void*);
 
+typedef struct listnode{
+ 	struct listnode *prev;
+	struct listnode *next;
+	void* value;
+	int free;
+}listnode;
+
 typedef struct list{
-
 	struct listnode *head;
-
 	struct listnode *tail;
-
 	int size;
-
 	Dupfun dup;
-
 	Freefun free;
-
 	Matchfun match;
-
 }list;
+
+listnode* node_creat();
 list* list_creat();
 void list_set_dup(list* target,void* (*setmethod)(void *ptr));
 void list_set_free(list* target, void (*getmethod)(void *ptr));

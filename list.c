@@ -4,9 +4,9 @@
 listnode * node_creat()
 {
 	listnode* pnode = (listnode*)malloc(sizeof(listnode));
+	pnode->value = NULL;
 	pnode->next = NULL;
 	pnode->prev = NULL;
-	pnode->value = NULL;
 	return pnode;
 }
 

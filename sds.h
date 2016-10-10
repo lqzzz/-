@@ -9,11 +9,11 @@ typedef struct sdshdr {
 	//char buf[MAXSIZE];必须指定大小,但整个结构过大
 
 }sds;
-unsigned int sdshashcode(sds* target);
+unsigned int sdshashcode(const sds *const target);
 int sds_len(const sds*const sdsp);
 sds* sds_new(const char *dest);
 sds* sds_empty();
-void sds_free(sds* block);
+int sds_free(sds* block);
 int sds_avail(const sds *const sdsp);
 sds* sds_dup(const sds* const source);
 void sds_clear(sds * const sdsp);

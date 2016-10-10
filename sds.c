@@ -78,7 +78,7 @@ void sds_clear(sds * const sdsp)
 	sdsp->len = 0;
 	*sdsp->buf = '\0';
 }
-void sds_cat(sds * psds, const char * str)
+void sds_cat(sds *psds, const char * str)
 {
 	int size = (int)strlen(str) + 1;//计算所需分配的空间
 	char *oldstrp = psds->buf;
@@ -149,21 +149,13 @@ void sds_growzero(sds * sdsp)
 sds* sds_dup(const sds* const source)
 {	
 	sds* sdsp = sds_empty();
-
 	sdsp->buf = (char*)malloc(source->free+source->len+1);//注意分配内存！
-
 	sdsp->free = source->free;
-
 	sdsp->len = source->len;
-
 	char *sp = source->buf;
-
 	char *dp = sdsp->buf;
-
 	*dp = '\0';
-
 	while (*dp++ = *sp++);
-
 	return sdsp;
 }
 
@@ -172,7 +164,7 @@ int sds_avail(const sds *const sdsp)
 	return sdsp->free;
 }
 
-unsigned int sdshashcode(const sds *target)
+unsigned int sdshashcode(const sds *const target)
 {
 	unsigned int num = 0;
 	char *str = target->buf;
@@ -181,7 +173,7 @@ unsigned int sdshashcode(const sds *target)
 		int inte = *str;
 		num = (num * 10) + inte;
 	}
-	return num;
+	return num % 97;
 }
 
 int sds_len(const sds*const sdsp)
@@ -192,35 +184,27 @@ int sds_len(const sds*const sdsp)
 sds * sds_new(const char * src)
 {
 	sds* sdsp = sds_empty();
-
 	//char* p = sdsp->buf = (char*)malloc(sizeof(strlen(src)+1));//sizeof什么鬼
 	char* p = sdsp->buf = (char*)malloc(strlen(src) + 1);//'\0'字符
-
 	*p = '\0';
- 
 	while (*p++=*src++) sdsp->len++; //赋值同时偏移至下一位
-
 	return sdsp;
 }
 
 sds * sds_empty()
 {
-	sds * p = (sds*)malloc(sizeof(sds));
-
+	sds *p = (sds*)malloc(sizeof(sds));
 	assert(p);
-
 	p->buf = NULL;
-
 	p->free = 0;
-
 	p->len = 0;
-
 	return p;
 }
 
-void sds_free(sds* block)
+int sds_free(sds* block)
 {
 	assert(block);
 	if(block->buf)  free(block->buf);
 	free(block);
+	return 1;
 }
