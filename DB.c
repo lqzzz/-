@@ -1,7 +1,9 @@
-#include "DB.h"
-#include"MemPool.h"
-DB * Createdb()
-{
+#include"DB.h"
+#define LEVEL_DATABASE 0
+#define LEVEL_TABLE 1
+#define LEVEL_PROPERTY 2
+#define LEVEL_DATA 3
+DB * Createdb() {
 	DB* db = Memalloc(sizeof(DB));
-	Dict* dict = Memalloc(sizeof(Dict));
+	return db;
 }

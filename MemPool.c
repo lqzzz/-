@@ -14,6 +14,7 @@ static void* CreateNode(size_t size)
 	assert(node);
 	node->size_ = size;
 	node->chunk_ = malloc(size);
+	assert(node->chunk_);
 	node->next_ = list.used_head;
 	list.used_head = node;
 	list.used_ += size;
@@ -34,10 +35,11 @@ void* Memalloc(unsigned int size)
 				*curr = node->next_;
 				node->next_ = list.used_head;
 				list.used_head = node;
+				list.used_ += size;
 				return node->chunk_;
 			}
+			*curr = node->next_;
 		}
-		//return CreateNode(size);
 	}
 	return CreateNode(size);
 }
@@ -54,9 +56,34 @@ void FreeMem(void *chunk)
 			list.free_head = node;
 			list.free_ += node->size_;
 			list.used_ -= node->size_;
-			memset(node->chunk_, 0, node->size_);
+			//memset(node->chunk_, 0, node->size_);
 			return;
 		}
 		curr = &node->next_;
 	}	
 }
+
+
+void * Memrealloc(void * chunk, unsigned int size)
+{
+	
+	for (MemNode **curr = &list.used_head; *curr;)
+	{
+		MemNode* node = *curr;
+		if (node->chunk_ == chunk)
+		{		
+			list.used_ += size;
+			chunk = realloc(chunk, size);
+			assert(chunk);
+			return chunk;
+		}
+		curr = &node->next_;
+	}
+	return NULL;
+}
+
+//void * Memrealloc(void * ptr, size_t size)
+//{
+//
+//	return NULL;
+//}

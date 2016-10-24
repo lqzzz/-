@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<assert.h>
 #include<string.h>
+#include"MemPool.h"
 //第一版 字符串拼接
 //if (psds->free <= size)
 //{
@@ -85,7 +86,7 @@ void sds_cat(sds *psds, const char * str)
 	if (psds->free <= size)
 	{	
 		size_t newsize = (psds->len + size)*2-1; //新开辟字符串，并扩容
-		char* newstrp = malloc(newsize);
+		char* newstrp = Memalloc(newsize);
 		assert(newstrp);
 		char* restrp = newstrp;
 		*newstrp = '\0';
@@ -111,6 +112,17 @@ void sds_cpy(const char * str, sds * psds)
 void sds_growzero(sds * sdsp)
 {
 
+}
+int sds_compare(sds * s1, sds * s2)
+{
+	if (s1&&s2)
+	{
+		int len;
+		len = sds_len(s1);
+		return memcmp(s1->buf, s2->buf, len);
+	}
+	return -1;
+	//return strcmp(s1->buf, s2->buf);
 }
 //void sds_trim(sds * sdsp, const char * str)
 //{
@@ -149,13 +161,18 @@ void sds_growzero(sds * sdsp)
 sds* sds_dup(const sds* const source)
 {	
 	sds* sdsp = sds_empty();
-	sdsp->buf = (char*)malloc(source->free+source->len+1);//注意分配内存！
+	sdsp->buf = Memalloc(source->free+source->len+1);//注意分配内存！
 	sdsp->free = source->free;
 	sdsp->len = source->len;
 	char *sp = source->buf;
 	char *dp = sdsp->buf;
+	int len = sds_len(source);
+	memcpy(dp,sp,len);
+	dp[len] = '\0';
+	/*char *sp = source->buf;
+	char *dp = sdsp->buf;
 	*dp = '\0';
-	while (*dp++ = *sp++);
+	while (*dp++ = *sp++);*/
 	return sdsp;
 }
 
@@ -178,6 +195,7 @@ unsigned int sdshashcode(const sds *const target)
 
 int sds_len(const sds*const sdsp)
 {
+	sds * p = sdsp;
 	return sdsp->len;
 }
 
@@ -185,7 +203,7 @@ sds * sds_new(const char * src)
 {
 	sds* sdsp = sds_empty();
 	//char* p = sdsp->buf = (char*)malloc(sizeof(strlen(src)+1));//sizeof什么鬼
-	char* p = sdsp->buf = (char*)malloc(strlen(src) + 1);//'\0'字符
+	char* p = sdsp->buf = Memalloc(strlen(src) + 1);//'\0'字符
 	*p = '\0';
 	while (*p++=*src++) sdsp->len++; //赋值同时偏移至下一位
 	return sdsp;
@@ -193,7 +211,7 @@ sds * sds_new(const char * src)
 
 sds * sds_empty()
 {
-	sds *p = (sds*)malloc(sizeof(sds));
+	sds *p = Memalloc(sizeof(sds));
 	assert(p);
 	p->buf = NULL;
 	p->free = 0;
@@ -204,7 +222,7 @@ sds * sds_empty()
 int sds_free(sds* block)
 {
 	assert(block);
-	if(block->buf)  free(block->buf);
-	free(block);
+	if(block->buf) FreeMem(block->buf);
+	FreeMem(block);
 	return 1;
 }

@@ -1,18 +1,22 @@
+#ifndef _OBJECT_H
+#define _OBJECT_H
 #define OBJTYPE_STRING 0
-#define OBJTYPE_LIST 1
-#define OBJTYPE_HASH 2
-#define ENCONDING_RAW 0
-#define ENCONDING_HT 1
-typedef struct Object
-{
-	unsigned char tyep_;
-	unsigned char enconding_;
-	int refcount_;
+#define OBJTYPE_INTEGER 1
+#define OBJTYPE_PAIR 2
+#define OBJTYPE_LIST 3
+#define OBJTYPE_VECTOR 4
+typedef struct Object {
+	short tyep_;
+	short refcount_;
 	void *ptr_;
 }Object;
 
 Object* CreateObject(int type, void *ptr);
+Object* CreateStringObject(void* ptr);
+void DecrRefConut(void *obj);
+void ObjectDestructor(void *obj);
+int DictObjentCompare(const void *key1, const void *key2);
+unsigned int ObjectHashCode(const Object *obj);
+void FreeStringObjent(Object *obj);
 
-Object* CreateRawStringObject(void* ptr);
-
-//int CompareStringObject();
+#endif /*_OBJECT_H*/

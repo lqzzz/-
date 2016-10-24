@@ -3,8 +3,8 @@
 
 typedef struct MemNode
 {
-	struct MemNode *next_;
 	unsigned int size_;
+	struct MemNode *next_;
 	void* chunk_;
 }MemNode;
 typedef struct MemList
@@ -17,5 +17,6 @@ typedef struct MemList
 
 void* Memalloc(unsigned int size);
 void FreeMem(void *ptr);
+void* Memrealloc(void* address,unsigned int size);
 
 #endif // !__MEMPOOL_

@@ -1,35 +1,34 @@
-#pragma once
 #include "dict.h"
 #include<string.h>
-#include<stdlib.h>
 #include<assert.h>
-#include<stdio.h>
 #include"MemPool.h"
-
+#include"sds.h"
 static DictEntry* DictSearchEntry(const Dict *const dict, const void *const key)
 {
 	int index_ = DictHashKey(dict, key) & dict->ht_->size_mask;
-	DictEntry *target_ = dict->ht_->table_[index_];
+	DictEntry *target_ = *dict->ht_->table_ + index_;
 	while (target_->next_)
 	{
-		if (target_->key_ == key)
+		sds* s1 = key;
+		sds* s2 = target_->key_;
+		if (!dict->type_->key_compare(target_->key_, key))
 			return target_;
 		target_ = target_->next_;
 	}
 	return target_;
 }
-DictEntry* DicEntryCreate()
+static DictEntry* DicEntryCreate()
 {
-	DictEntry *entry_ = calloc(HT_SIZE, sizeof(DictEntry));
-	//DictEntry *entry_ = Memalloc(sizeof(DictEntry) * HT_SIZE);
+	//DictEntry *entry_ = calloc(HT_SIZE, sizeof(DictEntry));
+	DictEntry *entry_ = Memalloc(sizeof(DictEntry) * HT_SIZE);
 	assert(entry_);
-	//size_t size_ = 0;
-	//for (; size_ < 97; size_++)
-	//{
-	//	entry_[size_].key_ = NULL;
-	//	entry_[size_].value_ = NULL;
-	//	entry_[size_].next_ = NULL;
-	//}
+	size_t size_ = 0;
+	for (; size_ < 97; size_++)
+	{
+		entry_[size_].key_ = NULL;
+		entry_[size_].value_ = NULL;
+		entry_[size_].next_ = NULL;
+	}
 	return entry_;
 }
 
@@ -38,30 +37,22 @@ int DictInit(Dict *dict, const DictType *type)
 	dict->type_ = type;
 	return DICT_OK;
 }
-Dict* DictCreate()
+
+Dict* DictCreate(DictType *Type)
 {
 	Dict *dic_ = Memalloc(sizeof(Dict));
 	assert(dic_);
+	dic_->type_ = Type;
 	dic_->ht_ = Memalloc(sizeof(DictHt));
 	assert(dic_->ht_);
 	dic_->ht_->size_mask = HT_SIZE - 1;
-	dic_->ht_->size_ = 0;
+	dic_->ht_->size_ = HT_SIZE;
 	dic_->ht_->used_ = 0;
 	dic_->privdata_ = NULL;
-	dic_->ht_->table_ = Memalloc(sizeof(size_t));
-	
+	dic_->ht_->table_ = Memalloc(sizeof(size_t));	
 	DictEntry *entry_ = DicEntryCreate();
 	*dic_->ht_->table_ = entry_;
 	DictEntry *e1 = *dic_->ht_->table_;
-	DictEntry *e2 = *dic_->ht_->table_ + 1;
-	DictEntry *e3 = *dic_->ht_->table_ + 2;
-	DictEntry *e4 = *dic_->ht_->table_ + 3;
-	DictEntry *e5 = *dic_->ht_->table_ + 96;
-
-	/*DictEntry **head = dic_->ht_->table_;
-	while (entry_->key_ == NULL)
-		*head++ = entry_++;
-	*dic_->ht_->table_ = *head;*/
 	return dic_;
 }
 
@@ -70,14 +61,19 @@ void* DictAdd(const Dict *const dict, void *const key, void *const value)
 	DictEntry *key_entry;
 	if ((key_entry = DictSearchEntry(dict, key)) == key)
 		return key_entry;
-	DictHt *ht = dict->ht_;
-	DictEntry *new_entry = Memalloc(sizeof(DictEntry));
+	if (!key_entry->key_)
+	{
+		DictSetHashValue(dict, key_entry, value);
+		DictSetHashKey(dict, key_entry, key);
+		dict->ht_->used_++;
+		return DICT_OK;
+	}
+ 	DictEntry *new_entry = Memalloc(sizeof(DictEntry));
+	DictSetHashKey(dict, new_entry, key);
+	DictSetHashValue(dict, new_entry, value);
+	new_entry->next_ = NULL;
 	key_entry->next_ = new_entry;
-	ht->used_++;
-	new_entry->key_ = key;
-	new_entry->value_ = value;
-	/*DictSetHashKey(dict, new_entry, key);
-	DictSetHashValue(dict, new_entry, value);*/
+	dict->ht_->used_++;
 	return DICT_OK;
 }
 
@@ -97,7 +93,9 @@ int DictReplace(const Dict *const dict, void *key, void *value)
 void* DictFatchValue(const Dict *const dict, const void *const key)
 {
 	DictEntry *target_ = DictSearchEntry(dict, key);
-	if (target_)
+	sds *s1 = target_->key_;
+	sds *s2 = target_->value_;
+	if (!dict->type_->key_compare(target_->key_,key))
 		return target_->value_;
 	else
 		return NULL;

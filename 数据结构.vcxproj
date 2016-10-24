@@ -18,6 +18,33 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DB.h" />
+    <ClInclude Include="dict.h" />
+    <ClInclude Include="dystring.h" />
+    <ClInclude Include="Iterator.h" />
+    <ClInclude Include="list.h" />
+    <ClInclude Include="MemPool.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Pair.h" />
+    <ClInclude Include="sds.h" />
+    <ClInclude Include="SkipList.h" />
+    <ClInclude Include="Vector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DB.c" />
+    <ClCompile Include="dict.c" />
+    <ClCompile Include="Iterator.c" />
+    <ClCompile Include="list.c" />
+    <ClCompile Include="MemPool.c" />
+    <ClCompile Include="Object.c" />
+    <ClCompile Include="Pair.c" />
+    <ClCompile Include="sds.c" />
+    <ClCompile Include="string.c" />
+    <ClCompile Include="test_list.c" />
+    <ClCompile Include="Vector.c" />
+    <ClCompile Include="源.c" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4BC7F6F0-50F0-4D6E-880D-CC3909F7983E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -145,17 +172,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="dict.cpp" />
-    <ClCompile Include="list.c" />
-    <ClCompile Include="sds.c" />
-    <ClCompile Include="源.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="dict.h" />
-    <ClInclude Include="list.h" />
-    <ClInclude Include="sds.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

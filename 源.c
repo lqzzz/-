@@ -2,7 +2,11 @@
 #include"sds.h"
 #include"dict.h"
 #include<string.h>
+#include"Object.h"
+#include"DB.h"
 #include"MemPool.h"
+#include"Vector.h"
+#include<time.h>
 //void remove_if(node ** head, remove_fn rm)
 //{
 //	for (node** curr = head; *curr; )
@@ -17,30 +21,34 @@
 //			curr = &entry ->next;
 //	}
 //}
+
 #include<stdlib.h>
-
-#define PREFIX_SIZE sizeof(size_t)
-#define Increment_User_Mem(__n) do{ \
-	if((*__n)&(sizeof(size_t)-1)) *__n += sizeof(size_t)-((*__n)&sizeof(size_t)-1);\
-} while(0)
-typedef struct c {
-	int free;
-	int d;
-	char *buf;
-}c;
-
 int main()
 {
 	
-	Dict *dict = DictCreate();
-	sds *key1 = sds_new("key1");
-	sds *value1 = sds_new("value1");
-	sds *key2 = sds_new("key2");
-	sds *value2 = sds_new("value2");
-	DictType *type = Memalloc(sizeof(DictType));
-	type->hash_funtion = sdshashcode;
 	return 0;
 }
+
+//sds *str1 = sds_new("str1");
+//sds *str2 = sds_new("str2");
+//sds *str3 = sds_new("str3");
+//sds *str4 = sds_new("str4");
+//Object *o1 = CreateObject(OBJTYPE_STRING, str1);
+//Object *o2 = CreateObject(OBJTYPE_STRING, str2);
+//Object *o3 = CreateObject(OBJTYPE_STRING, str3);
+//Object *o4 = CreateObject(OBJTYPE_STRING, str4);
+//Vector *v = VectorCreate();
+//v = PustBack(v, o1);
+//v = PustBack(v, o2);
+//v = PustBack(v, o3);
+//v = PustBack(v, o4);
+//VectorIter *iter = VectorGetIter(v, 0);
+//Object *o5 = VectorNext(iter);
+//Object *o6 = VectorNext(iter);
+//Object *o7 = VectorNext(iter);
+//Object *o8 = VectorNext(iter);
+
+
 
 
 
