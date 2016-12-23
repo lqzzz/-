@@ -19,29 +19,40 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Algorithm.h" />
     <ClInclude Include="DB.h" />
     <ClInclude Include="dict.h" />
     <ClInclude Include="dystring.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="list.h" />
+    <ClInclude Include="Listhead.h" />
     <ClInclude Include="MemPool.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Pair.h" />
-    <ClInclude Include="sds.h" />
+    <ClInclude Include="Parse_Select.h" />
+    <ClInclude Include="Scanner.h" />
+    <ClInclude Include="SourceStream.h" />
+    <ClInclude Include="str.h" />
     <ClInclude Include="SkipList.h" />
+    <ClInclude Include="Sqlparse.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Algorithm.c" />
     <ClCompile Include="DB.c" />
     <ClCompile Include="dict.c" />
     <ClCompile Include="Iterator.c" />
     <ClCompile Include="list.c" />
+    <ClCompile Include="Listhead.c" />
     <ClCompile Include="MemPool.c" />
     <ClCompile Include="Object.c" />
     <ClCompile Include="Pair.c" />
-    <ClCompile Include="sds.c" />
+    <ClCompile Include="Parse_Select.c" />
+    <ClCompile Include="Scanner.c" />
+    <ClCompile Include="str.c" />
     <ClCompile Include="string.c" />
-    <ClCompile Include="test_list.c" />
+    <ClCompile Include="test.c" />
+    <ClCompile Include="Sqlparse.c" />
     <ClCompile Include="Vector.c" />
     <ClCompile Include="源.c" />
   </ItemGroup>

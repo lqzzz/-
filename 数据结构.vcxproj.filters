@@ -33,9 +33,6 @@
     <ClInclude Include="Object.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sds.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="SkipList.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -48,6 +45,27 @@
     <ClInclude Include="Pair.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Algorithm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="str.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Sqlparse.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Listhead.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Scanner.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceStream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Parse_Select.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="list.c">
@@ -57,9 +75,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Object.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sds.c">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="string.c">
@@ -83,7 +98,25 @@
     <ClCompile Include="Iterator.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="test_list.c">
+    <ClCompile Include="test.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="str.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Sqlparse.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Listhead.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scanner.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Parse_Select.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

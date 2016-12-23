@@ -1,12 +1,4 @@
-#include<stdio.h>
-#include"sds.h"
-#include"dict.h"
-#include<string.h>
-#include"Object.h"
-#include"DB.h"
-#include"MemPool.h"
-#include"Vector.h"
-#include<time.h>
+
 //void remove_if(node ** head, remove_fn rm)
 //{
 //	for (node** curr = head; *curr; )
@@ -22,22 +14,22 @@
 //	}
 //}
 
-#include<stdlib.h>
-int main()
-{
-	
-	return 0;
-}
 
-//sds *str1 = sds_new("str1");
-//sds *str2 = sds_new("str2");
-//sds *str3 = sds_new("str3");
-//sds *str4 = sds_new("str4");
+//int main("
+//{
+//	TestList(";
+//	return 0;
+//}
+
+//str *str1 = str_new("str1");
+//str *str2 = str_new("str2");
+//str *str3 = str_new("str3");
+//str *str4 = str_new("str4");
 //Object *o1 = CreateObject(OBJTYPE_STRING, str1);
 //Object *o2 = CreateObject(OBJTYPE_STRING, str2);
 //Object *o3 = CreateObject(OBJTYPE_STRING, str3);
 //Object *o4 = CreateObject(OBJTYPE_STRING, str4);
-//Vector *v = VectorCreate();
+//Vector *v = VectorCreate(";
 //v = PustBack(v, o1);
 //v = PustBack(v, o2);
 //v = PustBack(v, o3);

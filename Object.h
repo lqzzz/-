@@ -1,10 +1,12 @@
 #ifndef _OBJECT_H
 #define _OBJECT_H
+#include "dict.h"
 #define OBJTYPE_STRING 0
 #define OBJTYPE_INTEGER 1
 #define OBJTYPE_PAIR 2
 #define OBJTYPE_LIST 3
 #define OBJTYPE_VECTOR 4
+
 typedef struct Object {
 	short tyep_;
 	short refcount_;

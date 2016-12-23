@@ -1,5 +1,5 @@
 #include "Object.h"
-#include"sds.h"
+#include"str.h"
 #include"MemPool.h"
 void FreeStringObjent(Object *obj){
 	/*int obj_type = obj->tyep_;
@@ -9,7 +9,7 @@ void FreeStringObjent(Object *obj){
 		}
 
 	if (obj->value_type == VALTYPE_RAW)
-		sds_free(obj->ptr_);
+		str_free(obj->ptr_);
 	FreeMem(obj);*/
 }
 
@@ -28,17 +28,17 @@ void ObjectDestructor(void *obj){
 	DecrRefConut(obj);
 }
 
-unsigned int ObjectHashCode(const Object *obj){
-	return sdshashcode(obj->ptr_);
-}
+//unsigned int ObjectHashCode(const Object *obj){
+//	return strhashcode(obj->ptr_);
+//}
 
-int DictObjentCompare(const void *key1, const void *key2){
-	Object *o1 = key1, *o2 = key2;
-	return sds_compare(o1->ptr_, o2->ptr_);
-}
+//int DictObjentCompare(const void *key1, const void *key2){
+//	Object *o1 = key1, *o2 = key2;
+//	return str_compare(o1->ptr_, o2->ptr_);
+//}
 
 Object* CreateObject(int type, void *ptr){
-	Object *obj = Memalloc(sizeof(Object));
+	Object *obj = mem_alloc(sizeof(Object));
 	obj->tyep_ = type;
 	obj->ptr_ = ptr;
 	obj->refcount_ = 1;

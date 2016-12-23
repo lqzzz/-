@@ -1,41 +1,58 @@
 #ifndef _LIST_H
 #define _LIST_H
+
+#include"Iterator.h"
+
 #define LITER_START_HEAD 0
 #define LITER_START_TAIL 1
-#include"Iterator.h"
-#include"sds.h"
-typedef struct listnode{
- 	struct listnode *prev;
-	struct listnode *next;
-	void* value;
-}listnode;
 
-typedef struct list{
-	int size;
-	Dupfun dup;
-	Freefun free;
-	Matchfun match;
-	struct listnode *head;
-	struct listnode *tail;
-}list;
+#define ListLength(l) ((l)->size_)
+#define ListHead(l) ((l)->head_)
+#define ListTail(l) ((l)->tail_)
+#define ListPrevNode(n) ((n)->prev_)
+#define ListNextNode(n) ((n)->next_)
+#define ListNodeValue(n) ((n)->value_)
+
+#define ListSetDupMethod(l,m) ((l)->dup_ = (m))
+#define ListSetFreeMethod(l,m) ((l)->free_ = (m))
+#define ListSetMatchMethod(l,m) ((l)->comp_ = (m))
+
+#define ListGetDupMethod(l) ((l)->dup_)
+#define ListGetFree(l) ((l)->free_)
+#define ListGetMatchMethod(l) ((l)->comp_)
+
+typedef struct ListNode {
+	struct ListNode *prev_;
+	struct ListNode *next_;
+	void* value_;
+}ListNode;
+
+typedef struct list {
+	int size_;
+	Dupfun dup_;
+	Freefun free_;
+	Comparefun comp_;
+	ListNode *head_;
+	ListNode *tail_;
+}List;
 
 typedef struct ListIter {
-	short direction;
-	listnode *next;
+	short direction_;
+	ListNode *next_;
 }ListIter;
 
-list* list_creat();
-list* select(list* list,int argc, sds argv[]);
-listnode* list_get_head(list* target);
-listnode* list_get_tail(list* target);
-listnode* list_get_next(ListIter* iter);
-listnode* list_search(list* list,void *target);
-Iterator* list_get_iter(list *list);
-void list_set_dup(list* target,Dupfun dupfun);
-void list_set_free(list* target, Freefun freefun);
-void list_add_head(list* target, void* value);
-void list_add_tail(list* target, void* value);
+List* list_creat();
+List* list_dup(List* lsrc);
+List* list_add_head(List* target, void* value);
+//List* list_add_tail(List* target, void* value);
+void list_free_node(List* list);
+void list_free_value(List* list);
+inline void list_free(List* list);
 
+inline void* list_next(Iterator* iter);
+inline int list_has_next(Iterator* iter);
+Iterator* list_get_begin_iter(List *list);
+Iterator* list_get_end_iter(List *list);
 #endif // !_LIST_H
 
 
