@@ -1,6 +1,24 @@
 #ifndef  _PAIR_H
 #define  _PAIR_H
 #include"MemPool.h"
+#define PAIR_INIT(p) memset(p,0,sizeof(Pair))
+#define PAIR_CLEAR(p) do{\
+	if(p == NULL) break;\
+	if ((p)->piartype_) {\
+		(p)->piartype_->first_free((p)->first_);\
+		(p)->piartype_->second_free((p)->second_);\
+	}else {\
+		mem_free((p)->first_);\
+		mem_free((p)->second_);\
+	}\
+}while(0)
+#define PairGetFirst(pair_) ((pair_)->first_)
+#define PairGetSecond(pair_) ((pair_)->second_)
+#define PairMatch(pair_,key_) ((pair_)->piartype_->first_cmp(key_,pair_->first_))
+#define PairSetFirst(pair,value)((pair)->first_ = value)
+#define PairSetSecond(pair,value)((pair)->second_ = value)
+#define PAIR_FREE(p) PAIR_CLEAR(p); mem_free(p)
+#define new_pair mem_calloc(1,sizeof(Pair))
 typedef struct PairType{
 	void(*first_free)(void*);
 	void(*second_free)(void*);
@@ -13,13 +31,6 @@ typedef struct Pair {
 	void* second_;
 	PairType *piartype_;
 }Pair;
-
-#define PairGetFirst(pair_) ((pair_)->first_)
-#define PairGetSecond(pair_) ((pair_)->second_)
-#define PairMatch(pair_,key) ((pair_)->piartype_->first_cmp(key,pair_->first_))
-#define PairSetFirst(pair_,first_)((pair_)->first_ = first_)
-#define PairSetSecond(pair_,second_)((pair_)->second_ = second_)
-
 Pair* pair_create(void* first, void* second, PairType* type);
 PairType* pair_type_create(void(*first_free)(void*),
 						   void(*second_free)(void*),
@@ -27,7 +38,5 @@ PairType* pair_type_create(void(*first_free)(void*),
 						   void*(*second_dup)(void*),
 						   int16_t(*first_cmp)(void*, void*));
 int16_t pair_cmp(Pair* p1,Pair* p2);
-void pair_free(Pair* p);
-
 #endif // ! _PAIR_H
 

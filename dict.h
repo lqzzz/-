@@ -71,18 +71,18 @@ typedef struct Dict {
 #define DictMatchHashKey(d,key_1,key_2)\
 	(((d)->type_->key_match) ? \
 		(d)->type_->key_match(key_1,key_2) : \
-		((key_1)==(key_2)))
+		(key_1==key_2) == NULL ? 1 : NULL)
 
 Dict* dict_create(DictType *Type);
 DictEntry* dict_add_key(const Dict *, const void *);
-uint16_t dict_add_entry(const Dict *dict, const void* key, const void *value);
+int dict_add_entry(const Dict *dict, const void* key, const void *value);
 //int dict_replace(const Dict *, const void *key, const void *value);
 void* dict_get_value(const Dict * dict, const void * key);
 DictEntry* dict_get_entry(const Dict * dict, const void * key);
 int dict_delete(const Dict * dict, const void * key);
 int16_t get_hash_code(const char *str);
 
-#endif /* __DICT_H */
+#endif /* !__DICT_H */
 //
 //DictType* dict_type = mem_alloc(sizeof(DictType));
 //dict_type->key_match = strcmp;

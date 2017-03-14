@@ -1,5 +1,8 @@
 #include"DB.h"
+
 int db_match_name(DBnode* node, const char* key){
+	if (node->name_ == NULL || key == NULL)
+		return -1;
 	return strcmp(node->name_, key);
 }
 
@@ -8,7 +11,9 @@ void* dbnode_search(void* head,const char* name){
 }
 
 Table* table_create(){
-	Table* t = mem_calloc(1,sizeof(Table)+sizeof(size_t)*INIT_TTABLE_NUM);
+	Table* t = mem_calloc(1,sizeof(Table));
+	VECTOR_INIT(&t->rec_vec,INIT_RECROD_NUM);
+	VectorSetFreeMethod(&t->rec_vec, rec_del);
 	LIST_INIT(t);
 	return t;
 }
@@ -24,7 +29,24 @@ void col_del(Column* col){
 	mem_free(col);
 }
 
-Column* col_create(int num){
+obj* create_obj(void* data) {
+	obj* o = mem_alloc(sizeof(obj));
+	o->data_ = data;
+	o->ref_count = 0;
+	return o;
+}
+
+void database_del(DBnode * db){
+	
+}
+
+void rec_del(Record * rec){
+	mem_free(rec->time_stamp);
+	mem_free(rec->data_);
+	mem_free(rec);
+}
+
+Column* col_create(int num) {
 	Column* col_ = mem_calloc(1,sizeof(Column));
 	LIST_INIT(col_);
 	col_->data_type = NULL_;
@@ -32,11 +54,35 @@ Column* col_create(int num){
 	return col_;
 }
 
-Record* rec_create(char* schema,int pvarcount, int16_t fieldcount){
+//不定长数据未考虑
+
+Record* rec_create(char* schemaname,size_t len){
 	Record* rec_ = mem_alloc(sizeof(Record));
-	rec_->data_ = mem_alloc(fieldcount*sizeof(size_t)); 
-	rec_->p_variable = mem_alloc(sizeof(size_t)*pvarcount);
-	rec_->schema_name = schema;
+	rec_->time_stamp = NULL;
+	rec_->schema_name = schemaname;
+	rec_->data_ = mem_alloc(len);
 	return rec_;
 }
+
+void* rec_dup_data(Record * rec,size_t datalen){
+	void* data_ = mem_alloc(datalen);
+	memcpy(data_, rec->data_, datalen);
+	return data_;
+}
+
+void col_free(Column * col){
+	mem_free(col->name_);
+	mem_free(col);	
+}
+
+void table_del(Table * table){
+	list_del_all(table->col_head,col_del);
+	//vector_destruct(&table->rec_vec);
+	mem_free(table->name_);
+	mem_free(table->creator_);
+	mem_free(table);
+}
+
+
+
 

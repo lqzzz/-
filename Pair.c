@@ -1,4 +1,5 @@
 #include "Pair.h"
+
 Pair * pair_create(void * first, void * second,PairType *type){
 	Pair *pair_ = mem_alloc(sizeof(Pair));
 	pair_->piartype_ = type;
@@ -24,9 +25,4 @@ int16_t pair_cmp(Pair* p1,Pair* p2){
 	return p1->piartype_->first_cmp(p1->first_, p2->first_);
 }
 
-void pair_free(Pair* p){
-	p->piartype_->first_free(p->first_);
-	p->piartype_->second_free(p->second_);
-	
-}
 

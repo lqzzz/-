@@ -63,7 +63,19 @@
     <ClInclude Include="SourceStream.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Parse_Select.h">
+    <ClInclude Include="Select.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="where.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Parse_Que.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Relation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Print.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,8 +128,20 @@
     <ClCompile Include="Scanner.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Parse_Select.c">
+    <ClCompile Include="Select.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Parse_Que.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CodeGen.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Relation.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CodeGen.h" />
   </ItemGroup>
 </Project>

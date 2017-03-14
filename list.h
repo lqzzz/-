@@ -44,7 +44,7 @@ typedef struct ListIter {
 List* list_creat();
 List* list_dup(List* lsrc);
 List* list_add_head(List* target, void* value);
-//List* list_add_tail(List* target, void* value);
+List* list_add_tail(List* target, void* value);
 void list_free_node(List* list);
 void list_free_value(List* list);
 inline void list_free(List* list);

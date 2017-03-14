@@ -1,7 +1,7 @@
 #include "dict.h"
 #include<stdio.h>
-static int16_t dict_search_index(Dict* dict, void* key) {
-	int16_t index_ = get_hash_code(key) % dict->ht_->size_;
+static int dict_search_index(Dict* dict, void* key) {
+	int index_ = get_hash_code(key) % dict->ht_->size_;
 	DictEntry *entry_ = dict->ht_->table_[index_];
 	while (entry_) {
 		if (DictMatchHashKey(dict, entry_->key_, key) == 0)
@@ -45,7 +45,7 @@ Dict* dict_create(DictType *Type){
 	return dic_;
 }
 
-int16_t dict_add_entry(const Dict* dict,const void* key,const void* value){
+int dict_add_entry(const Dict* dict,const void* key,const void* value){
 	DictEntry *entry_ = dict_add_key(dict,key);
 	if (entry_ == NULL)
 		return DICT_ERR;
@@ -64,18 +64,6 @@ DictEntry* dict_add_key(const Dict *dict, const void* key){
 	*ht_head = entry_;
 	return *ht_head;
 }
-
-//int dict_replace(const Dict *dict, void *key, void *value){
-//	void *target = dict_add(dict, key, value);
-//	if (*(int*)target == DICT_OK)
-//		return DICT_OK;
-//	DictEntry *target_entry = (DictEntry*)target;
-//	DictFreeKey(dict, target_entry);
-//	DictFreeValue(dict, target_entry);
-//	DictSetHashKey(dict, target_entry,key);
-//	DictSetHashValue(dict, target_entry,value);
-//	return DICT_OK;
-//}
 
 void* dict_get_value(const Dict *dict, const void * key){
 	DictEntry *target_ = dict_get_entry(dict, key);

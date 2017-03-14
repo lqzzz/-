@@ -39,10 +39,10 @@ List * list_dup(List * lsrc)
 			}
 		}else
 			value = current_node->value_;
-		if (!list_add_tail(copy_, value)) {
-			list_free(copy_);
-			return NULL;
-		}
+		//if (!list_add_tail(copy_, value)) {
+		//	list_free(copy_);
+		//	return NULL;
+		//}
 	}
 	return copy_;
 }

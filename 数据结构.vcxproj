@@ -29,16 +29,21 @@
     <ClInclude Include="MemPool.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Pair.h" />
-    <ClInclude Include="Parse_Select.h" />
+    <ClInclude Include="Parse_Que.h" />
+    <ClInclude Include="Print.h" />
+    <ClInclude Include="Relation.h" />
     <ClInclude Include="Scanner.h" />
+    <ClInclude Include="Select.h" />
     <ClInclude Include="SourceStream.h" />
     <ClInclude Include="str.h" />
     <ClInclude Include="SkipList.h" />
     <ClInclude Include="Sqlparse.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="where.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Algorithm.c" />
+    <ClCompile Include="CodeGen.c" />
     <ClCompile Include="DB.c" />
     <ClCompile Include="dict.c" />
     <ClCompile Include="Iterator.c" />
@@ -47,8 +52,10 @@
     <ClCompile Include="MemPool.c" />
     <ClCompile Include="Object.c" />
     <ClCompile Include="Pair.c" />
-    <ClCompile Include="Parse_Select.c" />
+    <ClCompile Include="Parse_Que.c" />
+    <ClCompile Include="Relation.c" />
     <ClCompile Include="Scanner.c" />
+    <ClCompile Include="Select.c" />
     <ClCompile Include="str.c" />
     <ClCompile Include="string.c" />
     <ClCompile Include="test.c" />
@@ -56,17 +63,20 @@
     <ClCompile Include="Vector.c" />
     <ClCompile Include="源.c" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CodeGen.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4BC7F6F0-50F0-4D6E-880D-CC3909F7983E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>数据结构</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -109,6 +119,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Windows Kits\10\Include\10.0.14393.0\ucrt;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -124,13 +135,16 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>Custom</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\lqz\Desktop\源码\数据结构;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>pthreadVC2.lib;pthreadVCE2.lib;pthreadVSE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

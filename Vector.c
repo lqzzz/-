@@ -1,18 +1,49 @@
 #include "Vector.h"
-#define INIT_LEN 1
+#define INIT_LEN 4
+#define BINARY_SEARCH_FLAG 16
 #define SWAP(v1,v2) do {\
 	void* temp = v1; \
 	v1 = v2;\
 	v2 = temp;\
 }while(0)
 
-uint16_t vector_insert(size_t index, Vector *v){
-	
+static __inline int32_t default_comp(int* v1, int* v2) {
+	int i1 = *v1;
+	int i2 = *v2;
+	if (i1 > i2)
+		return 1;
+	else if (i1 < i2)
+		return -1;
+	else return 0;
 }
 
-Vector * vector_create_len(int count){
-	Vector *v = mem_alloc(sizeof(Vector) + sizeof(size_t)*count); v->dup_ = NULL; v->free_ = NULL; v->comp_ = NULL; v->usedsize_ = 0;
-	v->freesize_ = count;
+static __inline int32_t linear_search(Vector* v, void* key,int32_t(*comp)(void*, void*)) {	
+	size_t length_ = v->usedsize_;
+	void** vector_ = v->vector_;
+	for (size_t i = 0; i < length_; i++){
+		if (comp(vector_[i], key) == 0)
+			return i;
+	}
+	return -1;
+}
+
+static int32_t binary_search(Vector * v,void* key,int32_t(*comp_)(void*, void*)){
+	void **v_ = v->vector_;
+	int32_t lo = 0, hi = v->usedsize_;
+	while (hi > lo) {
+		int mi = (lo + hi) >> 1;
+		if ((comp_(key, v_[mi]) == -1))
+			hi = mi;
+		else 
+			lo = mi + 1;
+	}
+	return --lo;
+}
+
+Vector * vector_create_len(int len){
+	Vector *v = mem_calloc(1,sizeof(Vector)); 
+	v->vector_ = mem_calloc(1,sizeof(size_t)*len);
+	v->freesize_ = len;
 	return v;
 }
 
@@ -20,64 +51,79 @@ Vector * vector_create(){
 	return vector_create_len(INIT_LEN);
 }
 
-void vector_init(Vector* v,size_t size){
-	
-}
-
-Vector * vector_filter(Vector * v)
-{
-	return NULL;
-}
-
-Vector * vector_distinct(Vector * v){
-	if (!VectorGetUsedSize(v))
-		return NULL;
-	Vector *v_ = vector_create();
-	v_->dup_ = v->dup_;
-	v_->free_ = v->free_;
-	v_->comp_ = v->comp_;
-	VectorIter *iter_ = vector_get_begin(v);
-	v_ = push_back(v_, vector_next(iter_));
-	void* key_ = vector_next(iter_);
-	while (key_) {
-		
-	}
-	return NULL;
-}
-
-uint16_t vector_copy(Vector * v,Vector* vsrc){
+int32_t vector_init_v(Vector * dest, Vector * vsrc){
+	size_t usedsize_ = vsrc->usedsize_;
+	size_t freesize_ = vsrc->freesize_;
+	size_t size_ = usedsize_ + freesize_;
+	VECTOR_INIT(dest, size_);
+	memset(dest, 0, sizeof(Vector));
+	if (vsrc->dup_ == NULL)
+		dest->vector_ = memcpy(dest->vector_, vsrc->vector_, usedsize_ * sizeof(size_t));
+	dest->usedsize_ = usedsize_;
+	dest->freesize_ = freesize_;
 	return 0;
 }
 
-void vector_destruct(Vector * v){
-	size_t len = v->usedsize_;
-	int i = 0;
-	if (v->free_)
-		for (; i < len; ++i)
-			v->free_(v->vector_[i]);
-	else
-		for (; i < len; ++i)
-			mem_free(v->vector_[i]);
-	vector_release(v);
-}
-
-void vector_release(Vector *v){
-	mem_free(v);
-}
-
-Vector * push_back(Vector *v, void* value){
-	size_t freesize_ = v->freesize_;
-	size_t usedsize_ = v->usedsize_;
-	if (freesize_)
-		v->vector_[usedsize_] = value;
-	else{
-		v = mem_realloc(v, v->usedsize_ << 1);
-		v->vector_[usedsize_] = value;
-	}
+int32_t vector_insert(size_t index, Vector * v,void* value){
+	if (v->freesize_ == 0)
+		VECTOR_GROW(v, v->usedsize_ << 1);
+	if (v->vector_[index] == NULL)
+		v->vector_[index] = value;
+	else return -1;
 	v->usedsize_++;
 	v->freesize_--;
-	return v;
+	return 0;
 }
+
+void * vector_get_val(Vector * v, int index){
+	return v->vector_[index];
+}
+
+Vector * vector_filter(Vector * v){
+
+	return NULL;
+}
+
+//Vector * vector_distinct(Vector * v){
+//	if (!VectorGetUsedSize(v))
+//		return NULL;
+//	Vector *v_ = vector_create();
+//	v_->dup_ = v->dup_;
+//	v_->free_ = v->free_;
+//	v_->comp_ = v->comp_;
+//	VectorIter *iter_ = vector_get_begin(v);
+//	v_ = push_back(v_, vector_next(iter_));
+//	void* key_ = vector_next(iter_);
+//	while (key_) {
+//		
+//	}
+//	return NULL;
+//}
+
+int32_t vector_copy(Vector * v,Vector* vsrc){
+
+	return 0;
+}
+
+//void vector_clear(Vector * v){
+//	size_t len = v->usedsize_;
+//	if (v->free_)
+//		for (size_t i = 0; i < len; ++i)
+//			v->free_(v->vector_[i]);
+//	else
+//		for (size_t i = 0; i < len; ++i)
+//			mem_free(v->vector_[i]);
+//}
+//
+//void vector_destruct(Vector* v) {
+//	mem_free(v->vector_);
+//}
+//
+//void vector_release(Vector *v){
+//	vector_clear(v);
+//	vector_destruct(v);
+//	mem_free(v);
+//}
 
 VectorIter* vector_get_begin(Vector* v){
 	VectorIter *iter_;
@@ -96,14 +142,21 @@ VectorIter* vector_get_end(Vector* v) {
 	return iter_;
 }
 	
-uint16_t vector_value_copy(Vector * vdest, Vector * vsrc){
-	return 0;
-}
-
-inline void swap(void* p1, void* p2) {
-	void** temp = p1;
-	p1 = p2;
-	p2 = temp;
+Vector* vector_value_copy(Vector * vsrc){
+	size_t usedsize_ = vsrc->usedsize_;
+	size_t freesize_ = vsrc->freesize_;
+	size_t size_ = usedsize_ + freesize_;
+	Vector* v_ = vector_create_len(size_);
+	//if (vsrc->dup_ == NULL) {
+	//	for (int i = 0; i < size_; i++){
+	//		if (vsrc->vector_[i])
+	//			void* data_;
+	//	}
+	//	memcpy(v_->vector_, vsrc->vector_, usedsize_ * sizeof(size_t));
+	//}
+	v_->usedsize_ = usedsize_;
+	v_->freesize_ = freesize_ ;
+	return v_;
 }
 
 void insert_sort(Vector *v) {
@@ -123,29 +176,27 @@ void quicksort(Vector* vsrc, int l, int u) {
 	quicksort(vsrc, m + 1, u);
 }
 
-void vector_sort(Vector * v){
+inline void vector_sort(Vector * v){
 	quicksort(v, 0, v->usedsize_ - 1);
 }
 
-int vector_search(Vector * v,void* key){
-	void **v_ = v->vector_;
-	int16_t(*comp_)(void*, void*) = v->comp_;
-	int16_t lo = 0, hi = v->usedsize_;
-	while (hi > lo) {
-		int mi = (lo + hi) >> 1;
-		if ((comp_(key, v_[mi]) == -1))
-			hi = mi;
-		else 
-			lo = mi + 1;
-	}
-	return --lo;
+inline int32_t vector_search(Vector * v,void* key,int32_t(*comp)(void*, void*)){
+	if (comp == NULL)
+		comp = default_comp;
+	return v->usedsize_ >= BINARY_SEARCH_FLAG ? binary_search(v, key, comp) : linear_search(v, key, comp);
+}
+
+int32_t vector_exist(Vector * v, void * key,int32_t(*comp)(void*,void*)){
+	//int index_ = vector_search(v, key, comp);
+	//if()
+	//return ;
 }
 
 void vector_release_iter(VectorIter * iter){
 	mem_free(iter);
 }
 
-int16_t vector_eq_iter(VectorIter *begin, VectorIter *end){
+int32_t vector_eq_iter(VectorIter *begin, VectorIter *end){
 	return begin->index_ == end->index_ ? 1 : 0;
 }
 
@@ -153,6 +204,7 @@ void* vector_next(VectorIter * iter){
 	iter->index_++;
 	return *iter->value_++;
 }
+
 
 /*Vector *v = VectorCreate();
 str *str1 = str_new("str1");

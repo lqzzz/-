@@ -22,20 +22,3 @@ string str_dup(const string source);
 void str_growzero(string *strp);
 //int str_compare(string *s1, string *s2);
 #endif _STR_H
-//void str_trim(str* strp, const char* str);
-
-//char bu[] ÓÃ·¨£»
-//char p[] = "abcdastrdf";
-//int len = strlen(p);
-//a *c = malloc(sizeof(a) + len);
-//memcpy(c->bu, p, len);
-//puts(p);
-//puts(c->bu);
-//c->bu[len] = '\0';
-//if (c->bu[len] == '\0')
-//printf("yes\n");
-//char *d = "123";
-//memcpy(c->bu, d, 3);
-//c->bu[3] = '\0';
-//puts(c->bu);
-//return 0;

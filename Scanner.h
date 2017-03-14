@@ -10,13 +10,13 @@
 #include "SourceStream.h"
 #include<stdio.h>
 #define TOKEN_TYPE (*curr)->token_type
-#define NEXT_TOKEN list_move_next(curr) 
+#define NEXT_TOKEN LIST_MOVE_NEXT(curr) 
 #define NEXT_TOKEN_TYPE ((Token*)LIST_GET_NEXT(*curr))->token_type
-#define MOVE_NEXT_TOKEN_TYPE ((Token*)*NEXT_TOKEN)->token_type 
+#define MOVE_NEXT_TOKEN_TYPE ((Token*)NEXT_TOKEN)->token_type 
+//#define MOVE_NEXT_TOKEN_TYPE ((Token*)*NEXT_TOKEN)->token_type 
 #define PARSE_ERROR(buf) do{\
 fprintf(stderr, " %d ÐÐ, %d ÁÐ ´íÎó£º%s\n", (*curr)->l_num, (*curr)->c_num, buf); goto ERROR;\
 }while(0)
-
 Dict *dict;
 typedef struct {
 	Listhead list_head;
